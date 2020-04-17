@@ -7,6 +7,7 @@ from PIL import ImageTk, Image
 import ckcs
 import dzcs
 import 数据库调用
+import langconv
 
 
 class GradeInterface(object):
@@ -39,8 +40,10 @@ class GradeInterface(object):
                 conclusion += '{0:>2}、未回答。\n'.format(i + 1)
         grade = right_amounts / question_amount * 100
         score = '您的总得分为：{0:.1f}分'.format(grade)
+        conclusion = langconv.Converter('zh-hant').convert(conclusion)
+        score = langconv.Converter('zh-hant').convert(score)
         self.grade_interface = tkinter.Tk()
-        self.grade_interface.title("回答情况总结")
+        self.grade_interface.title(langconv.Converter('zh-hant').convert("回答情况总结"))
         self.grade_interface.geometry("400x400+500+150")
         img = Image.open("./image/背景5.jpg")
         photo = ImageTk.PhotoImage(img)
@@ -52,10 +55,10 @@ class GradeInterface(object):
             bg_photo.create_text(80, 200, text=conclusion, fill='black', font=("宋体", 16))
         bg_photo.create_text(120, 18, text=score, fill='black', font=("宋体", 18))
         bg_photo.pack()
-        exit0 = tkinter.Button(self.grade_interface, text="退出游戏", font=('楷体', 18), bg='springgreen',
+        exit0 = tkinter.Button(self.grade_interface, text=langconv.Converter('zh-hant').convert("退出游戏"), font=('楷体', 18), bg='springgreen',
                                activebackground='lime', command=self.exit_grade_interface)
         exit0.place(relwidth=0.3, relheight=0.1, relx=0.7, rely=0.9)
-        back0 = tkinter.Button(self.grade_interface, text="返回首页", font=('楷体', 18), bg='springgreen',
+        back0 = tkinter.Button(self.grade_interface, text=langconv.Converter('zh-hant').convert("返回首页"), font=('楷体', 18), bg='springgreen',
                                activebackground='lime', command=self.grade_interface.destroy)
         back0.place(relwidth=0.3, relheight=0.1, relx=0, rely=0.9)
         self.grade_interface.protocol("WM_DELETE_WINDOW", self.exit_grade_interface)
@@ -105,22 +108,22 @@ class SayPoet(object):
         '''出口成诗界面'''
         background_color = ['skyblue', 'limegreen', 'grey']
         self.say_poet_interface = tkinter.Tk()
-        self.say_poet_interface.title("出口成诗")
+        self.say_poet_interface.title(langconv.Converter('zh-hant').convert("出口成诗"))
         self.say_poet_interface.geometry("400x400+500+150")
         img = Image.open("./image/背景5.jpg")
         photo = ImageTk.PhotoImage(img)
         bg_photo = tkinter.Canvas(self.say_poet_interface, width=400, height=400)
         bg_photo.create_image(250, 300, image=photo)
-        bg_photo.create_text(136, 290, text='请选词后在下方输入对应诗句：', fill='black', font=("宋体", 14))
+        bg_photo.create_text(136, 290, text=langconv.Converter('zh-hant').convert('请选词后在下方输入对应诗句：'), fill='black', font=("宋体", 14))
         bg_photo.pack()
         p1 = ttk.Progressbar(self.say_poet_interface, mode="determinate")
         p1.place(relwidth=1, relheight=0.02, relx=0, rely=0.01)
         p1["maximum"] = self.say_poet.question_amount
         p1["value"] = self.right_amount
         self.var = tkinter.StringVar()
-        w = tkinter.Label(self.say_poet_interface, text="剩余时间：" + str(self.time_limit) + "秒",
+        w = tkinter.Label(self.say_poet_interface, text=langconv.Converter('zh-hant').convert("剩余时间：" + str(self.time_limit) + "秒"),
                           textvariable=self.var, font=("宋体", 12), bg='lightcyan', )
-        self.var.set("剩余时间：" + str(self.time_limit) + "秒")
+        self.var.set(langconv.Converter('zh-hant').convert("剩余时间：" + str(self.time_limit) + "秒"))
         w.place(relwidth=0.32, relheight=0.06, relx=0.02, rely=0.04)
         for i in range(4):
             for j in range(3):
@@ -133,13 +136,13 @@ class SayPoet(object):
                 question_button.place(relwidth=0.3, relheight=0.13, relx=0.025+0.325*j, rely=0.12+0.14*i)
         self.answer = tkinter.Entry(self.say_poet_interface, font=("宋体", 14))
         self.answer.place(relwidth=0.8, relheight=0.1, relx=0, rely=0.78)
-        submit_button = tkinter.Button(self.say_poet_interface, text='提交', font=('楷体', 18), bg='springgreen',
+        submit_button = tkinter.Button(self.say_poet_interface, text=langconv.Converter('zh-hant').convert('提交'), font=('楷体', 18), bg='springgreen',
                                        activebackground='lime', command=self.submit_response)
         submit_button.place(relwidth=0.18, relheight=0.1, relx=0.81, rely=0.78)
-        exit0 = tkinter.Button(self.say_poet_interface, text="退出游戏", font=('楷体', 18), bg='springgreen',
+        exit0 = tkinter.Button(self.say_poet_interface, text=langconv.Converter('zh-hant').convert("退出游戏"), font=('楷体', 18), bg='springgreen',
                                activebackground='lime', command=self.exit_say_poet)
         exit0.place(relwidth=0.3, relheight=0.1, relx=0.7, rely=0.9)
-        back0 = tkinter.Button(self.say_poet_interface, text="返回首页", font=('楷体', 18), bg='springgreen',
+        back0 = tkinter.Button(self.say_poet_interface, text=langconv.Converter('zh-hant').convert("返回首页"), font=('楷体', 18), bg='springgreen',
                                activebackground='lime', command=self.back_mode_selection)
         back0.place(relwidth=0.3, relheight=0.1, relx=0, rely=0.9)
         self.say_poet_interface.protocol("WM_DELETE_WINDOW", self.exit_say_poet)
@@ -149,7 +152,7 @@ class SayPoet(object):
     def get_time(self):
         end_time = time.time()
         rest_time = self.time_limit - int(end_time - self.start_time)
-        self.var.set('剩余时间：' + str(rest_time) + '秒')
+        self.var.set(langconv.Converter('zh-hant').convert('剩余时间：' + str(rest_time) + '秒'))
         if rest_time == 0:
             self.time_out = 1
             self.say_poet_interface.destroy()
@@ -172,13 +175,13 @@ class SayPoet(object):
         if answer_right:
             self.answering_state[number] = 2
             self.right_amount += 1
-            messagebox.showinfo(message="回答正确！")
+            messagebox.showinfo(message=langconv.Converter('zh-hant').convert("回答正确！"))
             for i in range(self.say_poet.question_amount):
                 if self.answering_state[i] == 0:
                     self.answering_state[i] = 1
                     break
         else:
-            messagebox.showinfo(message="回答错误！")
+            messagebox.showinfo(message=langconv.Converter('zh-hant').convert("回答错误！"))
         self.say_poet_interface.destroy()
 
     def exit_say_poet(self):
@@ -251,14 +254,15 @@ class ClickPoet(object):
                 score += '上一题回答错误；'
         grade = self.right_amount / self.click_poet.question_amount * 100
         score += '当前得分为：{0:.1f}分'.format(grade)
+        score = langconv.Converter('zh-hant').convert(score)
         self.click_poet_interface = tkinter.Tk()
-        self.click_poet_interface.title("点字成诗")
+        self.click_poet_interface.title(langconv.Converter('zh-hant').convert("点字成诗"))
         self.click_poet_interface.geometry("400x400+500+150")
         img = Image.open("./image/背景5.jpg")
         photo = ImageTk.PhotoImage(img)
         bg_photo = tkinter.Canvas(self.click_poet_interface, width=400, height=400)
         bg_photo.create_image(250, 300, image=photo)
-        bg_photo.create_text(130, 280, text='请点击上方的字凑成一句诗：', fill='black', font=("宋体", 14))
+        bg_photo.create_text(130, 280, text=langconv.Converter('zh-hant').convert('请点击上方的字凑成一句诗：'), fill='black', font=("宋体", 14))
         bg_photo.create_text(150, 55, text=score, fill='black', font=("宋体", 12))
         bg_photo.pack()
         p1 = ttk.Progressbar(self.click_poet_interface, mode="determinate")
@@ -266,11 +270,11 @@ class ClickPoet(object):
         p1["maximum"] = self.click_poet.question_amount
         p1["value"] = self.question_number + 1
         self.var = tkinter.StringVar()
-        w = tkinter.Label(self.click_poet_interface, text="剩余时间：" + str(self.time_limit) + "秒",
+        w = tkinter.Label(self.click_poet_interface, text=langconv.Converter('zh-hant').convert("剩余时间：" + str(self.time_limit) + "秒"),
                           textvariable=self.var, font=("宋体", 12), bg='lightcyan', )
-        self.var.set("剩余时间：" + str(self.time_limit) + "秒")
+        self.var.set(langconv.Converter('zh-hant').convert("剩余时间：" + str(self.time_limit) + "秒"))
         w.place(relwidth=0.32, relheight=0.06, relx=0.02, rely=0.04)
-        next_question = tkinter.Button(self.click_poet_interface, text='下一题', font=('楷体', 18), bg='springgreen',
+        next_question = tkinter.Button(self.click_poet_interface, text=langconv.Converter('zh-hant').convert('下一题'), font=('楷体', 18), bg='springgreen',
                                        activebackground='lime', command=self.next_question_response)
         next_question.place(relwidth=0.2, relheight=0.08, relx=0.78, rely=0.04)
         for i in range(3):
@@ -282,7 +286,7 @@ class ClickPoet(object):
                                       activeforeground='green',
                                       command=lambda index0=i, index1=j: self.word_response(index0, index1))
                 word.place(relwidth=0.225, relheight=0.15, relx=0.02+0.245*j, rely=0.18+0.16*i)
-        see_right_answer = tkinter.Button(self.click_poet_interface, text='查看答案', font=('楷体', 18),
+        see_right_answer = tkinter.Button(self.click_poet_interface, text=langconv.Converter('zh-hant').convert('查看答案'), font=('楷体', 18),
                                           bg='springgreen', activebackground='lime', command=self.show_right_answer)
         see_right_answer.place(relwidth=0.3, relheight=0.1, relx=0.35, rely=0.9)
         label2 = tkinter.Label(self.click_poet_interface, text=self.answers[self.question_number],
@@ -291,10 +295,10 @@ class ClickPoet(object):
         delete_button = tkinter.Button(self.click_poet_interface, text='×', font=('楷体', 18), bg='springgreen',
                                        activebackground='lime', command=self.delete_response)
         delete_button.place(relwidth=0.24, relheight=0.1, relx=0.74, rely=0.76)
-        exit0 = tkinter.Button(self.click_poet_interface, text="退出游戏", font=('楷体', 18), bg='springgreen',
+        exit0 = tkinter.Button(self.click_poet_interface, text=langconv.Converter('zh-hant').convert("退出游戏"), font=('楷体', 18), bg='springgreen',
                                activebackground='lime', command=self.exit_click_poet)
         exit0.place(relwidth=0.3, relheight=0.1, relx=0.7, rely=0.9)
-        back0 = tkinter.Button(self.click_poet_interface, text="返回首页", font=('楷体', 18), bg='springgreen',
+        back0 = tkinter.Button(self.click_poet_interface, text=langconv.Converter('zh-hant').convert("返回首页"), font=('楷体', 18), bg='springgreen',
                                activebackground='lime', command=self.back_mode_selection)
         back0.place(relwidth=0.3, relheight=0.1, relx=0, rely=0.9)
         self.click_poet_interface.protocol("WM_DELETE_WINDOW", self.exit_click_poet)
@@ -304,7 +308,7 @@ class ClickPoet(object):
     def get_time(self):
         end_time = time.time()
         rest_time = self.time_limit - int(end_time - self.start_time)
-        self.var.set('剩余时间：' + str(rest_time) + '秒')
+        self.var.set(langconv.Converter('zh-hant').convert('剩余时间：' + str(rest_time) + '秒'))
         if rest_time == 0:
             self.time_out = 1
             self.click_poet_interface.destroy()
@@ -403,43 +407,44 @@ class YouSayIGuess(object):
                 score += '上一题回答错误；'
         grade = self.right_amount / self.question_amount * 100
         score += '当前得分为：{0:.1f}分'.format(grade)
+        score = langconv.Converter('zh-hant').convert(score)
         self.guess_interface = tkinter.Tk()
-        self.guess_interface.title("你说我猜")
+        self.guess_interface.title(langconv.Converter('zh-hant').convert("你说我猜"))
         self.guess_interface.geometry("400x400+500+150")
         img = Image.open("./image/背景5.jpg")
         photo = ImageTk.PhotoImage(img)
         bg_photo = tkinter.Canvas(self.guess_interface, width=400, height=400)
         bg_photo.create_image(250, 300, image=photo)
         bg_photo.create_text(150, 70, text=score, fill='black', font=("宋体", 12))
-        bg_photo.create_text(135, 260, text='请猜出上方内容所描述的诗句：', fill='black', font=("宋体", 14))
+        bg_photo.create_text(135, 260, text=langconv.Converter('zh-hant').convert('请猜出上方内容所描述的诗句：'), fill='black', font=("宋体", 14))
         bg_photo.pack()
         p1 = ttk.Progressbar(self.guess_interface, mode="determinate")
         p1.place(relwidth=1, relheight=0.02, relx=0, rely=0.01)
         p1["maximum"] = self.question_amount
         p1["value"] = self.question_number + 1
         self.var = tkinter.StringVar()
-        w = tkinter.Label(self.guess_interface, text="剩余时间：" + str(self.time_limit) + "秒",
+        w = tkinter.Label(self.guess_interface, text=langconv.Converter('zh-hant').convert("剩余时间：" + str(self.time_limit) + "秒"),
                           textvariable=self.var, font=("宋体", 12), bg='lightcyan',)
-        self.var.set("剩余时间：" + str(self.time_limit) + "秒")
+        self.var.set(langconv.Converter('zh-hant').convert("剩余时间：" + str(self.time_limit) + "秒"))
         w.place(relwidth=0.32, relheight=0.06, relx=0.01, rely=0.04)
-        label2 = tkinter.Label(self.guess_interface, text='译文：' + self.questions[self.question_number],
+        label2 = tkinter.Label(self.guess_interface, text=langconv.Converter('zh-hant').convert('译文：' + self.questions[self.question_number]),
                                font=("宋体", 14), wraplength=360, bg='lightsteelblue')
         label2.place(relwidth=1, relheight=0.3, relx=0, rely=0.25)
-        next_question = tkinter.Button(self.guess_interface, text='下一题', font=('楷体', 18), bg='springgreen',
+        next_question = tkinter.Button(self.guess_interface, text=langconv.Converter('zh-hant').convert('下一题'), font=('楷体', 18), bg='springgreen',
                                        activebackground='lime', command=self.next_question_response)
         next_question.place(relwidth=0.2, relheight=0.08, relx=0.79, rely=0.04)
         self.answer = tkinter.Entry(self.guess_interface, font=("宋体", 14))
         self.answer.place(relwidth=0.7, relheight=0.1, relx=0, rely=0.7)
-        submit_button = tkinter.Button(self.guess_interface, text='提交', font=('楷体', 18), bg='springgreen',
+        submit_button = tkinter.Button(self.guess_interface, text=langconv.Converter('zh-hant').convert('提交'), font=('楷体', 18), bg='springgreen',
                                        activebackground='lime', command=self.submit_response)
         submit_button.place(relwidth=0.28, relheight=0.1, relx=0.71, rely=0.7)
-        see_right_answer = tkinter.Button(self.guess_interface, text='查看答案', font=('楷体', 18), bg='springgreen',
+        see_right_answer = tkinter.Button(self.guess_interface, text=langconv.Converter('zh-hant').convert('查看答案'), font=('楷体', 18), bg='springgreen',
                                           activebackground='lime', command=self.show_right_answer)
         see_right_answer.place(relwidth=0.3, relheight=0.1, relx=0.35, rely=0.9)
-        exit0 = tkinter.Button(self.guess_interface, text="退出游戏", font=('楷体', 18), bg='springgreen',
+        exit0 = tkinter.Button(self.guess_interface, text=langconv.Converter('zh-hant').convert("退出游戏"), font=('楷体', 18), bg='springgreen',
                                activebackground='lime', command=self.exit_guess)
         exit0.place(relwidth=0.3, relheight=0.1, relx=0.7, rely=0.9)
-        back0 = tkinter.Button(self.guess_interface, text="返回首页", font=('楷体', 18), bg='springgreen',
+        back0 = tkinter.Button(self.guess_interface, text=langconv.Converter('zh-hant').convert("返回首页"), font=('楷体', 18), bg='springgreen',
                                activebackground='lime', command=self.back_mode_selection)
         back0.place(relwidth=0.3, relheight=0.1, relx=0, rely=0.9)
         self.guess_interface.protocol("WM_DELETE_WINDOW", self.exit_guess)
@@ -449,7 +454,7 @@ class YouSayIGuess(object):
     def get_time(self):
         end_time = time.time()
         rest_time = self.time_limit - int(end_time - self.start_time)
-        self.var.set('剩余时间：' + str(rest_time) + '秒')
+        self.var.set(langconv.Converter('zh-hant').convert('剩余时间：' + str(rest_time) + '秒'))
         if rest_time == 0:
             self.time_out = 1
             self.guess_interface.destroy()
@@ -507,23 +512,23 @@ class ModeSelection(object):
         global is_running, mode_select_interface
         if is_running:
             mode_select_interface = tkinter.Tk()
-            mode_select_interface.title("游戏模式选择")
+            mode_select_interface.title(langconv.Converter('zh-hant').convert("游戏模式选择"))
             mode_select_interface.geometry("400x400+500+150")
             img = Image.open("./image/背景3.jpg")
             photo = ImageTk.PhotoImage(img)
             bg_photo = tkinter.Canvas(mode_select_interface, width=400, height=400)
             bg_photo.create_image(350, 163, image=photo)
             bg_photo.pack()
-            mode1 = tkinter.Button(mode_select_interface, text="出口成诗", font=('楷体', 18), bg='skyblue',
+            mode1 = tkinter.Button(mode_select_interface, text=langconv.Converter('zh-hant').convert("出口成诗"), font=('楷体', 18), bg='skyblue',
                                    activebackground='limegreen', command=saying_poet.run)
             mode1.place(relwidth=0.3, relheight=0.1, relx=0.35, rely=0.15)
-            mode2 = tkinter.Button(mode_select_interface, text="点字成诗", font=('楷体', 18), bg='skyblue',
+            mode2 = tkinter.Button(mode_select_interface, text=langconv.Converter('zh-hant').convert("点字成诗"), font=('楷体', 18), bg='skyblue',
                                    activebackground='limegreen', command=clicking_poet.run)
             mode2.place(relwidth=0.3, relheight=0.1, relx=0.35, rely=0.35)
-            mode3 = tkinter.Button(mode_select_interface, text="你说我猜", font=('楷体', 18), bg='skyblue',
+            mode3 = tkinter.Button(mode_select_interface, text=langconv.Converter('zh-hant').convert("你说我猜"), font=('楷体', 18), bg='skyblue',
                                    activebackground='limegreen', command=you_say_i_guess.run)
             mode3.place(relwidth=0.3, relheight=0.1, relx=0.35, rely=0.55)
-            exit0 = tkinter.Button(mode_select_interface, text="退出游戏", font=('楷体', 18), bg='skyblue',
+            exit0 = tkinter.Button(mode_select_interface, text=langconv.Converter('zh-hant').convert("退出游戏"), font=('楷体', 18), bg='skyblue',
                                    activebackground='limegreen', command=self.exit_mode_select)
             exit0.place(relwidth=0.3, relheight=0.1, relx=0.35, rely=0.75)
             mode_select_interface.protocol("WM_DELETE_WINDOW", self.exit_mode_select)

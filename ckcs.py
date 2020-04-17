@@ -6,6 +6,7 @@ import re
 import json
 import random
 import time_limit
+import langconv
 
 LIMIT_TIME = 60
 
@@ -67,6 +68,7 @@ class PoetGame(object):
                 if self.all_poet[i]['chapter'].find(self.questions[number]) != -1 \
                         or self.all_poet[i]['paragraphs'][j].find(self.questions[number]) != -1:
                     sentence = re.findall(r'[\u4E00-\u9FA5]+', self.all_poet[i]['paragraphs'][j])
+                    sentence = langconv.Converter('zh-hant').convert(sentence)
                     if re_answer == sentence:
                         self.answers[number] = answer
                         self.unanswered[number] = 0
@@ -83,6 +85,7 @@ class PoetGame(object):
         while 1:
             random_poet = random.randint(0, len(all_question) - 1)
             if all_question[random_poet] not in self.questions:
+                all_question[random_poet] = langconv.Converter('zh-hant').convert(all_question[random_poet])
                 self.questions.append(all_question[random_poet])
             if len(self.questions) == self.question_amount:
                 break
